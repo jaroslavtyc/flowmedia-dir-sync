@@ -60,10 +60,10 @@ namespace JaroslavTyc\DirSync;
 use JaroslavTyc\DirSync\Actions\ActionInterface;
 
 class DeleteDirAction implements ActionInterface {
-    public function getName() : string{
+    public function getName() : string {
          return '#DeleteDir';
     }
-    public function runAction($context,string $workingDir, bool $dryRun){
+    public function runAction($context,string $workingDir, bool $dryRun) {
         // some nasty destroying code
     }
 }
@@ -87,5 +87,5 @@ All of this comes from the [original Flowmedia task](original_task/index.html).
 The easiest way is to get it via [composer](https://getcomposer.org/):
 
 ```sh
-php composer.phar require "jaroslavtyc/dir-sync:~1.0"
+php composer.phar require jaroslavtyc/flowmedia-dir-sync
 ```
