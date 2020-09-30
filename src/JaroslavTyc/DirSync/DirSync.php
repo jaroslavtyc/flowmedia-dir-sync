@@ -2,21 +2,24 @@
 
 namespace JaroslavTyc\DirSync;
 
+use JaroslavTyc\DirSync\Exceptions\InvalidWorkingDirException;
+
 class DirSync extends StrictObject
 {
-    /**
-     * @var string
-     */
-    private $workingDir;
     /**
      * @var DirSyncOptionsInterface
      */
     private $dirSyncOptions;
 
-    public function __construct(string $workingDir, DirSyncOptionsInterface $dirSyncOptions)
+    public function __construct(DirSyncOptionsInterface $dirSyncOptions)
     {
-        $this->workingDir = $this->sanitizeWorkingDir($workingDir);
         $this->dirSyncOptions = $dirSyncOptions;
+    }
+
+    public function syncAginstDir(string $workingDir)
+    {
+        $sanitizedWorkingDir = $this->sanitizeWorkingDir($workingDir);
+        // TODO
     }
 
     private function sanitizeWorkingDir(string $workingDir): string
@@ -27,4 +30,5 @@ class DirSync extends StrictObject
         }
         return $sanitizedWorkingDir;
     }
+
 }

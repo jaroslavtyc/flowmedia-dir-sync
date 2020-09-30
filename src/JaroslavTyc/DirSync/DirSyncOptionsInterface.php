@@ -4,5 +4,7 @@ namespace JaroslavTyc\DirSync;
 
 interface DirSyncOptionsInterface
 {
+    public function getAsJson(): string;
 
+    public function getAsArray(): array;
 }

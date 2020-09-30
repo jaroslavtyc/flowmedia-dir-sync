@@ -27,7 +27,13 @@ No other libraries should be used (not even shinnies as the [Symfony Console](ht
 
 All of this comes from the [original Flowmedia task](original_task/index.html).
 
-## Installation
+### Differences against original task
+
+- `root dir` renamed to `working dir`, as root dir has specific meaning in Linux
+- `working dir` (formerly `root dir`) has to be provided explicitly to the synchronization method itself to avoid accidents and confusion
+- all configuration options, except `working dir`, are wrapped by interface `DirSyncOptionsInterface`, most of them originally enclosed by original task `DirSyncInterface`
+
+## Installation 
 
 The easiest way is to get it via [composer](https://getcomposer.org/):
 

@@ -2,7 +2,7 @@
 
 namespace JaroslavTyc\DirSync\Exceptions;
 
-class InvalidWorkingDirException extends DirSyncRuntimeException
+class InvalidJsonException extends DirSyncRuntimeException
 {
 
 }
