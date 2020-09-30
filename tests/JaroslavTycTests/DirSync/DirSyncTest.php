@@ -3,6 +3,7 @@
 namespace JaroslavTycTests\DirSync;
 
 use JaroslavTyc\DirSync\DirSync;
+use JaroslavTyc\DirSync\DirSyncOptions;
 use PHPUnit\Framework\TestCase;
 
 class DirSyncTest extends TestCase
@@ -12,7 +13,7 @@ class DirSyncTest extends TestCase
      */
     public function I_can_crete_instance_of_it()
     {
-        $dirSync = new DirSync();
+        $dirSync = new DirSync(sys_get_temp_dir(), new DirSyncOptions());
         self::assertInstanceOf(DirSync::class, $dirSync);
     }
 }
