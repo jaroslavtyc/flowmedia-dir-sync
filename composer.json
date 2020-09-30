@@ -1,0 +1,40 @@
+{
+    "name": "jaroslavtyc/flowmedia-dir-sync",
+    "description": "Just a proof of my skills to get a job",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "flowmedia",
+        "dir",
+        "sync",
+        "json"
+    ],
+    "authors": [
+        {
+            "name": "jaroslav Týc",
+            "email": "mail@jaroslavtyc.com",
+            "homepage": "https://jaroslavtyc.com/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JaroslavTyc\\": "src/JaroslavTyc/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JaroslavTycTests\\": "tests/JaroslavTycTests"
+        }
+    },
+    "bin": [
+        "bin/dirsync"
+    ],
+    "require": {
+        "php": ">= 7.1",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^9.3"
+    }
+}

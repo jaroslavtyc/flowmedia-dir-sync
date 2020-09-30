@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dirSync</title>
+<link rel="stylesheet" href="dirSync_files/base.css">
+<script src="dirSync_files/MathJax.js" id=""></script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body cz-shortcut-listen="true"><div id="MathJax_Message" style="display: none;"></div><div class="container"><h2 id="dirsync">DirSync</h2>
+
+<p></p><div class="toc">
+<ul>
+<li><ul>
+<li><a href="#dirsync">DirSync</a><ul>
+<li><a href="#change-log">Change log</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#description">Description</a><ul>
+<li><a href="#json-structure-description">JSON structure description</a></li>
+<li><a href="#synchronization">Synchronization</a></li>
+<li><a href="#actions">Actions</a></li>
+<li><a href="#repository-structure">Repository structure</a></li>
+<li><a href="#composer">Composer</a></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#real-use-case">Real use case</a></li>
+<li><a href="#directory-sync-example">Directory Sync example</a></li>
+<li><a href="#action-example">Action example</a></li>
+</ul>
+</li>
+<li><a href="#example-of-a-use-case">Example of a use case</a></li>
+<li><a href="#library-interface">Library Interface</a></li>
+<li><a href="#json-input-example">JSON input example</a></li>
+<li><a href="#repository-structure-1">Repository structure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p></p>
+
+
+
+<h3 id="change-log">Change log</h3>
+
+<p><strong>1.0.2</strong></p>
+
+<blockquote>
+  <ul>
+  <li><a href="#description">Description</a> - typo fix</li>
+  <li><a href="#library-interface">Library interface</a> - typo fix</li>
+  </ul>
+</blockquote>
+
+<p><strong>1.0.1</strong></p>
+
+<blockquote>
+  <ul>
+  <li><a href="#description">Description</a> - updated</li>
+  <li><a href="#introduction">Introduction</a> - updated</li>
+  <li><a href="#actions">Actions</a> - updated</li>
+  <li><a href="#library-interface">Library interface</a> - updated</li>
+  <li><a href="#repository-structure">Repository structure</a> - added</li>
+  <li><a href="#json-structure-description">JSON structure description</a> - added</li>
+  </ul>
+</blockquote>
+
+<h3 id="introduction">Introduction</h3>
+
+<blockquote>
+  <p>A simple library for directory synchronization by a given JSON string with an option of a simple actions.</p>
+</blockquote>
+
+
+
+<h3 id="description">Description</h3>
+
+<p>DirSync should be a very simple and lightweight full object oriented library, which synchronizes a directory tree with a given <a href="#json-input-example">JSON</a> structure. By running this library with a <a href="#json-input-example">JSON</a> input on an empty <em>directory</em>, the library is going to create a directory structure as the JSON structure within the <em>directory</em>.  <br>
+If the library is used in a script then the script should be also able 
+to pass some options to the method \DirSync::sync() , which are 
+described in the <a href="#library-interface">library interface</a> to do just certain actions.</p>
+
+<h4 id="json-structure-description">JSON structure description</h4>
+
+<p>Find the description in the comments:</p>
+
+
+
+<pre class="prettyprint"><code class="language-javascript hljs ">{
+    <span class="hljs-comment">/**
+     * will create a directory "src" 
+     */</span>
+    <span class="hljs-string">"src"</span>: <span class="hljs-literal">null</span>,
+
+    <span class="hljs-comment">/**
+     * will create a directory "vendor" but the 
+     * directory content is ignored
+     */</span>
+    <span class="hljs-string">"vendor"</span>: <span class="hljs-literal">false</span>, 
+
+    <span class="hljs-comment">/*
+     * will create a directory "log"
+     */</span>
+    <span class="hljs-string">"log"</span>: { 
+
+        <span class="hljs-comment">/**
+         * will create a directory "apache" in the "log" directory
+         */</span>
+        <span class="hljs-string">"apache"</span>: <span class="hljs-literal">null</span>
+    },
+
+    <span class="hljs-comment">/*
+     * will create a directory "test"
+     */</span>
+    <span class="hljs-string">"test"</span>: { 
+
+        <span class="hljs-comment">/**
+         * will run the action copy with the parameters "['dst', 'src']" 
+         * where the \DirSync instance does not care what
+         * parameters are passed
+         */</span>
+        <span class="hljs-string">"#copy"</span>: [<span class="hljs-string">'dst'</span>, <span class="hljs-string">'src'</span>] 
+    }
+
+    <span class="hljs-comment">/**
+     * directory which is not in JSON will be removed
+     */</span>
+}</code></pre>
+
+
+
+<h4 id="synchronization">Synchronization</h4>
+
+<p>The directory synchronization is nothing else than just a simple 
+creating and removing of directories from the directory tree according 
+to the given JSON structure.</p>
+
+
+
+<h4 id="actions">Actions</h4>
+
+<p>The actions should be defined in classes. Each action name represents
+ a class name out of which the DirSync(or any other class) will create 
+an instance with the parameters as described in the <a href="#action-example">example</a>. The action class interface is up to the library creator.</p>
+
+
+
+<h4 id="repository-structure">Repository structure</h4>
+
+<p>The raw <a href="#repository-structure">repository structure</a> is 
+defined in this document. If necessary the structure may have more 
+directories, but not less. For instance the vendor directory from the <a href="https://getcomposer.org/">composer</a> is currently missing.</p>
+
+
+
+<h4 id="composer">Composer</h4>
+
+<p>The library files should be included in the root of the directory 
+tree, in a file named composer.json. This file should be configured as 
+the project requires by the <a href="https://getcomposer.org/">composer documentation</a>. <br>
+<strong>(Please do not use any another library tool than the composer).</strong></p>
+
+
+
+<h4 id="testing">Testing</h4>
+
+<p>Each library should have (but 99,9% of the libraries do not have it) 
+PHPUnit tests. In order to provide compatibility to other libraries, the
+ tests must by written specifically in <a href="https://github.com/sebastianbergmann/phpunit">PHPUnit</a> created by <a href="https://github.com/sebastianbergmann">Sebastian Bergman</a>. </p>
+
+
+
+<h4 id="real-use-case">Real use case</h4>
+
+<p>The library could be handy for installation scripts to create a 
+directory structure for a project. The vendor content can include some 
+templates of skeletons which can be copied to the right directory, a 
+file config(s) to which could be created symLinks. When the installation
+ script is executed in an existing project (which would be in fact an 
+update script) then the actions can be used to empty <em>tmp</em> directories. That was just an example of one use case from a hundreds.</p>
+
+
+
+<h4 id="directory-sync-example">Directory Sync example</h4>
+
+<p>For example if the given JSON structure is:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs json">{
+    "<span class="hljs-attribute">src</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">tests</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+    "<span class="hljs-attribute">log</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">apache</span>": <span class="hljs-value"><span class="hljs-literal">null</span></span>,
+        "<span class="hljs-attribute">app</span>":    <span class="hljs-value"><span class="hljs-literal">null</span>
+    </span>}
+</span>}</code></pre>
+
+<p>The result directory tree structure will be:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs rust">├── <span class="hljs-keyword">log</span>
+│   ├── apache
+│   └── app
+├── src
+└── tests</code></pre>
+
+
+
+<h4 id="action-example">Action example</h4>
+
+<p>In addition to the synchronization the library will be able to run 
+actions such as cp(copy), ln(symlink creation), rm(remove) (these are 
+just examples what the library could include as basic actions). The 
+actions do not have to be a part of the library. The actions just have 
+to be in the correct <em>namespace</em>, e.g. “\DirSync\Action\Cp” and implement the right interface, e.g. “\DirSync\Action\ActionInterface”.</p>
+
+<p><strong>For example</strong> let say we have an action <strong>Copy</strong>
+ which would be able to copy files or directories to another directory. 
+The parameters passed to the action would be an indexed array. Where the
+ index 0 is <em>source path</em> and index 1 is <em>destination path</em>. (Let’s follow the <a href="http://en.wikipedia.org/wiki/Rsync">rsync</a>
+ syntax and when the given source path is finished by a slash, then the 
+source is actually the content of the given directory path. E.g: 
+“/path/to/a/test” this would be a path to the directory “test”; 
+“/path/to/a/test2/” this would be the <strong>content</strong> of the directory “test2”.)</p>
+
+<p>Copy Interface (example):</p>
+
+
+
+<pre class="prettyprint"><code class="language-php hljs "><span class="hljs-preprocessor">&lt;?php</span>
+
+<span class="hljs-comment">/**
+ *<span class="hljs-phpdoc"> @author</span> Name LastName &lt;name@server.dom&gt;
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CopyInterface</span> {</span>
+
+    <span class="hljs-comment">/**
+     *<span class="hljs-phpdoc"> @param</span> mixed Indexed array where the index 0 is required and represent
+     *              the source path; index 1 is optional and represents the
+     *              destination path; When the index 1 is not provided
+     *              the default value is "./" which will represent the 
+     *              directory in which the action has been triggered.
+     *<span class="hljs-phpdoc"> @param</span> \DirSyncInterface $dirSync Reference to the DirSync instnace.
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__constructor</span><span class="hljs-params">(<span class="hljs-variable">$parameters</span>, <span class="hljs-variable">$dirSync</span>)</span>;</span>
+
+}
+</code></pre>
+
+<p>JSON input Example</p>
+
+
+
+<pre class="prettyprint"><code class="language-json hljs ">{
+    "<span class="hljs-attribute">app</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">webModules</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">#Copy</span>": <span class="hljs-value">[
+                <span class="hljs-string">"/vendor/flowmedia-webModules/frontModule"</span>,
+                <span class="hljs-string">"./"</span>
+            ]</span>,
+        }
+    </span>}
+</span>}</code></pre>
+
+<p>Let’s assume (for this example) that the library is triggered by a script exactly after “<strong>composer update</strong>“. This means that the directory <strong>vendor</strong> is present and already has content. Than the result directory structure would be:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs cs">├── app
+│   └── webModules
+│       └── frontModule
+│           └── <span class="hljs-comment">// a content of the copied directory</span>
+└── vendor
+    └── <span class="hljs-comment">// fetched libraries by the composer</span></code></pre>
+
+
+
+<h3 id="example-of-a-use-case">Example of a use case</h3>
+
+<p>Demonstrate a simple way of possible library usage.</p>
+
+
+
+<pre class="prettyprint"><code class="language-php hljs "><span class="hljs-preprocessor">&lt;?php</span>
+
+    <span class="hljs-comment">// creating a new instance of \DirSync</span>
+    <span class="hljs-variable">$dirSync</span> = <span class="hljs-keyword">new</span> \DirSync();
+
+    <span class="hljs-comment">// define a valid path of a json file</span>
+    <span class="hljs-variable">$filePath</span> = <span class="hljs-string">"/path/to/a/directory/file.JSON"</span>;
+
+    <span class="hljs-comment">// provide the instance with a JSON data file</span>
+    <span class="hljs-variable">$dirSync</span>-&gt;fromFile(<span class="hljs-variable">$filePath</span>);
+
+    <span class="hljs-comment">// trigger the synchronization process</span>
+    <span class="hljs-variable">$dirSync</span>-&gt;sync();
+
+    <span class="hljs-comment">// print back the current directory tree</span>
+    print_r(scandir(<span class="hljs-keyword">__DIR__</span>));
+</code></pre>
+
+
+
+<h3 id="library-interface">Library Interface</h3>
+
+
+
+<pre class="prettyprint"><code class="language-php hljs "><span class="hljs-preprocessor">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">DirSyncInterface</span> {</span>
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">()</span>;</span>
+
+    <span class="hljs-comment">/**
+     * Will set the root directory in which the directory 
+     * sync will be applied.
+     * If the root directory is not set the Instance should look for
+     * constant "__root__"; if the constant is not provided
+     * then the root is the system root.
+     *<span class="hljs-phpdoc"> @param</span> string $path A valid path to a existing directory
+     *<span class="hljs-phpdoc"> @return</span> self
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setRootDir</span><span class="hljs-params">(<span class="hljs-variable">$path</span>)</span>;</span>
+
+    <span class="hljs-comment">/**
+     * Will read the JSON string directly from a file path;
+     * 
+     *<span class="hljs-phpdoc"> @param</span> string $filePath A valid json file path
+     *<span class="hljs-phpdoc"> @throws</span> \DirSync\Exception
+     *<span class="hljs-phpdoc"> @return</span> self
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fromFile</span><span class="hljs-params">(<span class="hljs-variable">$filePath</span>)</span>;</span>
+
+    <span class="hljs-comment">/**
+     * Will provide the library with the JSON input
+     * 
+     *<span class="hljs-phpdoc"> @param</span> string $JSON A raw string JSON
+     *<span class="hljs-phpdoc"> @throws</span> \DirSync\Exception
+     *<span class="hljs-phpdoc"> @return</span> self
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setJsonInput</span><span class="hljs-params">(<span class="hljs-variable">$JSON</span>)</span>;</span>
+
+    <span class="hljs-comment">/**
+     * Simply return the previously given JSON data.
+     *<span class="hljs-phpdoc"> @throws</span> \DirSync\Exception
+     *<span class="hljs-phpdoc"> @return</span> string Return a string JSON data.
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getJsonInput</span><span class="hljs-params">()</span>;</span>
+
+
+    <span class="hljs-comment">/**
+     * Will begin the process of the synchronization. 
+     * The process can have the following options:
+     *
+     *  \DirSync::SYNC_CREATE_ONLY - creating directories only;&lt;br&gt;
+     *  \DirSync::SYNC_REMOVE_ONLY - only removing directories;&lt;br&gt;
+     *  \DirSync::SYNC_ACTIONS_ONLY - just run the action but do 
+     *  not change the directory tree in any way;&lt;br&gt;
+     * 
+     *<span class="hljs-phpdoc"> @param</span> mixed [optional] Additional options for the directory sync process
+     *<span class="hljs-phpdoc"> @throws</span> \DirSync\Exception
+     *<span class="hljs-phpdoc"> @return</span> self|array
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sync</span><span class="hljs-params">(<span class="hljs-variable">$options</span>=null)</span>;</span>
+
+}</code></pre>
+
+<h3 id="json-input-example">JSON input example</h3>
+
+<blockquote>
+  <p>Simple example of a library repository directory structure.</p>
+</blockquote>
+
+
+
+<pre class="prettyprint"><code class=" hljs json">{
+    "<span class="hljs-attribute">src</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">actions</span>": <span class="hljs-value"><span class="hljs-literal">null</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">tests</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">tmp</span>": <span class="hljs-value"><span class="hljs-literal">null</span>
+    </span>}</span>,
+    "<span class="hljs-attribute">vendor</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">example</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">subDirOfExample</span>":  <span class="hljs-value">{
+            "<span class="hljs-attribute">#actionClassName</span>": <span class="hljs-value"><span class="hljs-string">"stringParams"</span></span>,
+        }</span>,
+        "<span class="hljs-attribute">#actionClassName</span>": <span class="hljs-value">[<span class="hljs-string">"array"</span>, <span class="hljs-string">"params"</span>]</span>,
+        "<span class="hljs-attribute">#actionClassName</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">object</span>": <span class="hljs-value"><span class="hljs-string">"with a value"</span></span>,
+            "<span class="hljs-attribute">param</span>": <span class="hljs-value"><span class="hljs-literal">null</span>
+        </span>}</span>,
+    }
+</span>}</code></pre>
+
+
+
+<h3 id="repository-structure-1">Repository structure</h3>
+
+<p>The structure can obviously have more directories and files at the end of the development.</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash">├── /src
+│   ├── /actions
+│   ├── <span class="hljs-string">"DirSyncInterface.php"</span>
+│   └── <span class="hljs-string">"DirSync.php"</span>
+├── /tests
+│   └── tmp
+├── <span class="hljs-string">"composer.json"</span>
+├── <span class="hljs-string">".gitignore"</span>
+└── <span class="hljs-string">"README.md"</span></code></pre></div>
+</body></html>

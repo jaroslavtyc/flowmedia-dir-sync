@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/enable_autoloader';
+
+$options = getopt('d::x::cwf::r::n::', ['dir::', 'exclude-dir::', 'css', 'html', 'file::', 'root-dir::', 'dry-run::']);
+
+if (empty($options)) {
+    echo <<<TEXT
+Usage: dirsync [options...]
+ -n, --dry-run Just show an expected result without touching anything
+
+Examples:
+`dirsync --dry-run` will read a JSON configuration file from current working directory and guess a result
+
+TEXT;
+
+    exit;
+}
+$dryRun = isset($options['dry-run']) || isset($options['n']);
+
+if ($dryRun) {
+    echo '"Running" DirSync in a dry run mode... "done" (sorry, just a mock now)';
+} else {
+    echo '"Running" DirSync... "done" (sorry, just a mock now)';
+}

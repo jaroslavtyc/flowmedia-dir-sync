@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+function enableAutoloader()
+{
+    $firstDirToScanForAutoloader = __DIR__ . '/..';
+    $currentDir = str_replace('\\', '/', __DIR__);
+    if (strpos($currentDir, '/vendor/') !== false) {
+        $firstDirToScanForAutoloader = substr($currentDir, 0, strpos($currentDir, '/vendor/'));
+    }
+
+    $currentDirToScanForAutoloader = $firstDirToScanForAutoloader;
+    $autoloaderEnabled = false;
+    do {
+        foreach (scandir($currentDirToScanForAutoloader, SCANDIR_SORT_NONE) as $folder) {
+            if ($folder === 'vendor') {
+                $autoloadFile = $currentDirToScanForAutoloader . '/vendor/autoload.php';
+                if (is_readable($autoloadFile)) {
+                    /** @noinspection PhpIncludeInspection */
+                    require_once $autoloadFile;
+                    $autoloaderEnabled = true;
+                    break 2; // break whole do-while
+                }
+                unset($autoloadFile);
+            }
+        }
+        $currentDirToScanForAutoloader .= '/..';
+    } while (is_readable($currentDirToScanForAutoloader));
+
+    if (!$autoloaderEnabled) {
+        throw new \RuntimeException(sprintf(
+            "Can not find Composer autoloader. Tried directories from '%s' to '%s'",
+            $firstDirToScanForAutoloader,
+            $currentDirToScanForAutoloader
+        ));
+    }
+}
+
+enableAutoloader();
