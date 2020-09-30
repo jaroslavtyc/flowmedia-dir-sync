@@ -2,7 +2,7 @@
 
 namespace JaroslavTyc\DirSync\Exceptions;
 
-class UnreadableFile extends DirSyncRuntimeException
+class DirSyncLogicException extends \LogicException
 {
 
 }

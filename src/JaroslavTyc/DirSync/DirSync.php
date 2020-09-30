@@ -7,19 +7,35 @@ use JaroslavTyc\DirSync\Exceptions\InvalidWorkingDirException;
 class DirSync extends StrictObject
 {
     /**
-     * @var DirSyncOptionsInterface
+     * @var DirSyncConfigInterface
      */
-    private $dirSyncOptions;
+    private $dirSyncConfig;
+    /**
+     * @var ActionsRunner
+     */
+    private $actionsRunner;
 
-    public function __construct(DirSyncOptionsInterface $dirSyncOptions)
+    public function __construct(
+        DirSyncConfigInterface $dirSyncConfig,
+        ActionsRunner $actionsRunner
+    )
     {
-        $this->dirSyncOptions = $dirSyncOptions;
+        $this->dirSyncConfig = $dirSyncConfig;
+        $this->actionsRunner = $actionsRunner;
     }
 
-    public function syncAginstDir(string $workingDir)
+    public function syncAginstDir(string $workingDir, bool $dryRun = false)
     {
         $sanitizedWorkingDir = $this->sanitizeWorkingDir($workingDir);
-        // TODO
+        $this->checkWorkingDir($sanitizedWorkingDir);
+        foreach ($this->dirSyncConfig as $actionKey => $actionContext) {
+            $this->actionsRunner->runActionByKey(
+                $actionKey,
+                $actionContext,
+                $sanitizedWorkingDir,
+                $dryRun
+            );
+        }
     }
 
     private function sanitizeWorkingDir(string $workingDir): string
@@ -31,4 +47,10 @@ class DirSync extends StrictObject
         return $sanitizedWorkingDir;
     }
 
+    private function checkWorkingDir(string $workingDir)
+    {
+        if (!is_writable($workingDir)) {
+            throw new InvalidWorkingDirException(sprintf("Can not write into given working directory '%s'", $workingDir));
+        }
+    }
 }

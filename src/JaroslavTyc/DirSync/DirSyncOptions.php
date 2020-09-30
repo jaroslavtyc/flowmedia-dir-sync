@@ -4,41 +4,39 @@ namespace JaroslavTyc\DirSync;
 
 class DirSyncOptions extends StrictObject implements DirSyncOptionsInterface
 {
-    public static function createFromJsonFile(string $jsonFile): DirSyncOptionsInterface
-    {
-        $jsonString = FileReader::fetchFile($jsonFile);
-        return static::createFromJson($jsonString);
-    }
+    public const JSON_CONFIG_PATH = 'json_config_path';
+    public const DRY_RUN = 'dry_run';
+    public const WORKING_DIR = 'working_dir';
 
-    public static function createFromJson(string $json): DirSyncOptionsInterface
-    {
-        $options = JsonReader::decode($json);
-        return new static($options);
-    }
-
-    /**
-     * @var array
-     */
-    private $options;
+    private $jsonConfigPath;
+    private $dryRun;
+    private $workingDir;
 
     public function __construct(array $options)
     {
-        $this->guardKnownOptionsOnly($options);
-        $this->options = $options;
+        // TODO validate values
+        $this->jsonConfigPath = !empty($options[static::JSON_CONFIG_PATH])
+            ? (string)$options[static::JSON_CONFIG_PATH]
+            : 'dirsync.json';
+        $this->dryRun = (bool)($options[static::DRY_RUN] ?? false);
+        $this->workingDir = !empty($options[static::WORKING_DIR])
+            ? (string)$options[static::WORKING_DIR]
+            : getcwd();
     }
 
-    private function guardKnownOptionsOnly(array $options)
+    public function getJsonConfigPath(): string
     {
-        // TODO
+        return $this->jsonConfigPath;
     }
 
-    public function getAsJson(): string
+    public function getWorkingDir(): string
     {
-        return json_encode($this->getAsArray(), JSON_UNESCAPED_UNICODE);
+        return $this->workingDir;
     }
 
-    public function getAsArray(): array
+    public function isDryRun(): bool
     {
-        return $this->options;
+        return $this->dryRun;
     }
+
 }

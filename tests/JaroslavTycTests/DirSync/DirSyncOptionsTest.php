@@ -2,7 +2,9 @@
 
 namespace JaroslavTycTests\DirSync;
 
-use JaroslavTyc\DirSync\DirSyncOptions;
+use JaroslavTyc\DirSync\DirSyncConfig;
+use JaroslavTyc\DirSync\FileSystem\FileReader;
+use JaroslavTyc\DirSync\FileSystem\JsonDecoder;
 use PHPUnit\Framework\TestCase;
 
 class DirSyncOptionsTest extends TestCase
@@ -12,12 +14,7 @@ class DirSyncOptionsTest extends TestCase
      */
     public function I_can_create_it_from_json_string()
     {
-        $dirSyncOptions = DirSyncOptions::createFromJson(<<<JSON
-{
-    "something": "exceptional"
-}
-JSON
-        );
+        $dirSyncOptions = DirSyncConfig::createFromJson('{"something": "exceptional"}', new JsonDecoder());
         self::assertSame(['something' => 'exceptional'], $dirSyncOptions->getAsArray());
         self::assertSame('{"something":"exceptional"}', $dirSyncOptions->getAsJson());
     }
@@ -27,8 +24,17 @@ JSON
      */
     public function I_can_create_it_from_json_file()
     {
-        $dirSyncOptions = DirSyncOptions::createFromJsonFile(__DIR__ . '/stub/dir-sync-options.json');
+        $dirSyncOptions = DirSyncConfig::createFromJsonFile(__DIR__ . '/stub/dir-sync-options.json', new FileReader(), new JsonDecoder());
         self::assertSame(['thisIs' => 'it'], $dirSyncOptions->getAsArray());
         self::assertSame('{"thisIs":"it"}', $dirSyncOptions->getAsJson());
+    }
+
+    /**
+     * @test
+     */
+    public function I_can_create_it_directly()
+    {
+        $dirSyncConfig = new DirSyncConfig(['foo']);
+        self::assertSame(['foo'], $dirSyncConfig->getAsArray());
     }
 }

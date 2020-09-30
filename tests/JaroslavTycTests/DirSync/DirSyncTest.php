@@ -2,10 +2,11 @@
 
 namespace JaroslavTycTests\DirSync;
 
+use JaroslavTyc\DirSync\ActionsRunner;
 use JaroslavTyc\DirSync\DirSync;
-use JaroslavTyc\DirSync\DirSyncOptions;
+use JaroslavTyc\DirSync\DirSyncConfig;
+use JaroslavTyc\DirSync\FileSystem\DirCreator;
 use JaroslavTycTests\DirSync\Exceptions\DeleteFileException;
-use JaroslavTycTests\DirSync\Exceptions\DirCreationException;
 use JaroslavTycTests\DirSync\Exceptions\ReadDirException;
 use PHPUnit\Framework\TestCase;
 
@@ -25,15 +26,17 @@ class DirSyncTest extends TestCase
     private function initializeUniqueTestDir()
     {
         $testDir = sys_get_temp_dir() . '/' . uniqid('dir_sync_test', true);
-        $this->createDir($testDir);
+        self::getDirCreator()->createDir($testDir);
         $this->testDir = $testDir;
     }
 
-    private function createDir(string $dir)
+    protected static function getDirCreator(): DirCreator
     {
-        if (!file_exists($dir) && !@mkdir($dir, 0700, false) && !is_dir($dir)) {
-            throw new DirCreationException(sprintf("Can not create dir '%s'", $dir));
+        static $dirCreator;
+        if (!$dirCreator) {
+            $dirCreator = new DirCreator();
         }
+        return $dirCreator;
     }
 
     protected function tearDown(): void
@@ -84,8 +87,8 @@ class DirSyncTest extends TestCase
     {
         $foldersBeforeSync = $this->getFoldersInDir($this->testDir);
         self::assertSame([], $foldersBeforeSync);
-        $dirSync = new DirSync(new DirSyncOptions([]));
-        $dirSync->syncAginstDir($this->testDir);
+        $dirSync = new DirSync(new DirSyncConfig([]), new ActionsRunner());
+        $dirSync->syncAginstDir($this->testDir, false);
         $createdFolders = $this->getFoldersInDir($this->testDir);
         self::assertSame([], $createdFolders); // TODO sync something
     }

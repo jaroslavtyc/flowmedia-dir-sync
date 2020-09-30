@@ -4,7 +4,9 @@ namespace JaroslavTyc\DirSync;
 
 interface DirSyncOptionsInterface
 {
-    public function getAsJson(): string;
+    public function getJsonConfigPath(): string;
 
-    public function getAsArray(): array;
+    public function getWorkingDir(): string;
+
+    public function isDryRun(): bool;
 }

@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace JaroslavTyc\DirSync;
+namespace JaroslavTyc\DirSync\FileSystem;
 
 use JaroslavTyc\DirSync\Exceptions\InvalidJsonException;
+use JaroslavTyc\DirSync\StrictObject;
 
-class JsonReader extends StrictObject
+class JsonDecoder extends StrictObject
 {
-    public static function decode(string $json): array
+    public function decode(string $json): array
     {
         $decoded = json_decode($json, true);
         if ($decoded === null) {
